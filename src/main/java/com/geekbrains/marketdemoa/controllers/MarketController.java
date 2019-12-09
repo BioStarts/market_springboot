@@ -1,5 +1,6 @@
 package com.geekbrains.marketdemoa.controllers;
 
+import com.geekbrains.marketdemoa.entites.Cart;
 import com.geekbrains.marketdemoa.entites.Category;
 import com.geekbrains.marketdemoa.entites.Item;
 import com.geekbrains.marketdemoa.repositories.specifications.ItemSpecifications;
@@ -24,12 +25,15 @@ import java.util.stream.Collectors;
 public class MarketController {
     private ItemService itemService;
     private CategoryService categoryService;
+    private Cart cart;
 
     @Autowired
-    public MarketController(ItemService itemService, CategoryService categoryService) {
+    public MarketController(ItemService itemService, CategoryService categoryService, Cart cart) {
         this.itemService = itemService;
         this.categoryService = categoryService;
+        this.cart = cart;
     }
+
 
     @GetMapping("/")
     public String index(Model model, @RequestParam Map<String, String> params) {
@@ -61,5 +65,14 @@ public class MarketController {
     public String saveItem(@ModelAttribute(name = "item") Item item) {
         itemService.save(item);
         return "redirect:/";
+    }
+
+    @GetMapping("/cart/{id}")
+    public String addItemToCart(Model model,@PathVariable Long id) {
+        cart.addProductById(id);
+        System.out.println();
+        model.addAttribute("cart", cart.getAllProductList());
+        //return "redirect:/";
+        return "cart";
     }
 }

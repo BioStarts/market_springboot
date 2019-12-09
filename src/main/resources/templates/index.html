@@ -41,6 +41,7 @@
             <th>Описание товара</th>
             <th>Цена</th>
             <th>Действия</th>
+            <th>Добавить в корзину</th>
         </tr>
         </thead>
         <tbody>
@@ -56,6 +57,9 @@
             <td th:text="${item.price}"/>
             <td>
                 <a th:href="@{'/edit/' + ${item.id}}" class="btn btn-warning">Edit</a>
+            </td>
+            <td>
+                <a th:href="@{'/cart/' + ${item.id}}" class="btn btn-warning">+</a>
             </td>
         </tr>
         </tbody>
